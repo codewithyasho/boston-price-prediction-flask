@@ -7,18 +7,6 @@ A machine learning web application that predicts house prices in Boston using XG
 ![XGBoost](https://img.shields.io/badge/XGBoost-ML-orange.svg)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.0-purple.svg)
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Project Structure](#project-structure)
-- [Model Features](#model-features)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## ✨ Features
 
@@ -238,16 +226,6 @@ The XGBoost model has been trained and optimized for predicting house prices wit
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Boston Housing dataset from UCI Machine Learning Repository
-- XGBoost for the powerful gradient boosting framework
-- Flask community for the excellent web framework
-- Bootstrap team for the responsive CSS framework
 
 ## 📞 Contact
 
