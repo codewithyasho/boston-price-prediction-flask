@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boston House Price Prediction</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px 0;
+      }
+
+      .main-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .header-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-align: center;
+        padding: 30px;
+        border-radius: 20px 20px 0 0;
+        margin: -1px -1px 0 -1px;
+      }
+
+      .header-section h1 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 2.2rem;
+      }
+
+      .header-section p {
+        margin: 10px 0 0 0;
+        opacity: 0.9;
+        font-size: 1.1rem;
+      }
+
+      .form-section {
+        padding: 40px;
+      }
+
+      .form-row {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+      }
+
+      .form-label i {
+        margin-right: 8px;
+        color: #667eea;
+        width: 16px;
+      }
+
+      .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        transform: translateY(-1px);
+      }
+
+      .btn-predict {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      .btn-predict:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        color: white;
+      }
+
+      .result-section {
+        margin-top: 30px;
+        padding: 25px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        color: white;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .feature-info {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      .input-group .form-control {
+        padding-left: 45px;
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        z-index: 3;
+      }
+
+      @media (max-width: 768px) {
+        .form-section {
+          padding: 20px;
+        }
+
+        .header-section h1 {
+          font-size: 1.8rem;
+        }
+
+        .header-section p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="main-container">
+            <div class="header-section">
+              <h1><i class="fas fa-home"></i> Boston House Price Prediction</h1>
+              <p>Enter property details to get an accurate price prediction</p>
+            </div>
+
+            <div class="form-section">
+              <form action="/predict" method="post">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-shield-alt"></i>
+                        Crime Rate (CRIM)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="CRIM"
+                          class="form-control"
+                          required
+                          placeholder="0.00632"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Per capita crime rate by town
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-map"></i>
+                        Residential Zone (ZN)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="ZN"
+                          class="form-control"
+                          required
+                          placeholder="18.0"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Proportion of residential land zoned for lots over
+                        25,000 sq.ft.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-industry"></i>
+                        Industrial Area (INDUS)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="INDUS"
+                          class="form-control"
+                          required
+                          placeholder="2.31"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Proportion of non-retail business acres per town
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-water"></i>
+                        Charles River (CHAS)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="CHAS"
+                          class="form-control"
+                          required
+                          placeholder="0"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Charles River dummy variable (1 if tract bounds river; 0
+                        otherwise)
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-smog"></i>
+                        NOX Concentration
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="NOX"
+                          class="form-control"
+                          required
+                          placeholder="0.538"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Nitric oxides concentration (parts per 10 million)
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-bed"></i>
+                        Rooms (RM)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="RM"
+                          class="form-control"
+                          required
+                          placeholder="6.575"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Average number of rooms per dwelling
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-calendar-alt"></i>
+                        Age (AGE)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="AGE"
+                          class="form-control"
+                          required
+                          placeholder="65.2"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Proportion of owner-occupied units built prior to 1940
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-route"></i>
+                        Distance (DIS)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="DIS"
+                          class="form-control"
+                          required
+                          placeholder="4.09"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Weighted distances to employment centres
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-road"></i>
+                        Highway Access (RAD)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="RAD"
+                          class="form-control"
+                          required
+                          placeholder="1"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Index of accessibility to radial highways
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-dollar-sign"></i>
+                        Tax Rate (TAX)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="TAX"
+                          class="form-control"
+                          required
+                          placeholder="296"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Full-value property-tax rate per $10,000
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-users"></i>
+                        Pupil-Teacher Ratio (PTRATIO)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="PTRATIO"
+                          class="form-control"
+                          required
+                          placeholder="15.3"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        Pupil-teacher ratio by town
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-chart-bar"></i>
+                        B Value (B)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="B"
+                          class="form-control"
+                          required
+                          placeholder="396.9"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        1000(Bk - 0.63)^2 where Bk is the proportion of blacks
+                        by town
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-row">
+                      <label class="form-label">
+                        <i class="fas fa-chart-line"></i>
+                        Lower Status (LSTAT)
+                      </label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          step="any"
+                          name="LSTAT"
+                          class="form-control"
+                          required
+                          placeholder="4.98"
+                        />
+                      </div>
+                      <div class="feature-info">
+                        % lower status of the population
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-predict">
+                  <i class="fas fa-calculator"></i> Predict House Price
+                </button>
+              </form>
+
+              {% if predicted_result %}
+              <div class="result-section">
+                <i class="fas fa-home"></i>
+                {{ predicted_result }}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
