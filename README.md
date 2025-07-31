@@ -59,8 +59,8 @@ The application provides an elegant web interface where users can input property
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/boston-housing-prediction.git
-cd boston-housing-prediction
+git clone https://github.com/codewithyasho/boston-price-prediction-flask
+cd boston-price-prediction-flask
 ```
 
 ### Step 2: Create Virtual Environment (Recommended)
